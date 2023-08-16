@@ -1,6 +1,8 @@
-import Link from 'next/link';
+import { OrganizationSwitcher, SignedIn, SignOutButton } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 import Image from 'next/image';
-import { OrganizationSwitcher, SignOutButton, SignedIn } from '@clerk/nextjs';
+import Link from 'next/link';
+
 const Topbar = () => {
 	return (
 		<nav className='topbar'>
@@ -9,7 +11,7 @@ const Topbar = () => {
 				className='flex items-center gap-4'
 			>
 				<Image
-					src='/assets/logo.svg'
+					src='/logo.svg'
 					alt='logo'
 					width={28}
 					height={28}
@@ -35,6 +37,7 @@ const Topbar = () => {
 
 				<OrganizationSwitcher
 					appearance={{
+						baseTheme: dark,
 						elements: {
 							organizationSwitcherTrigger: 'py-2 px-4',
 						},

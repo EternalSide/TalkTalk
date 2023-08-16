@@ -20,9 +20,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			<html lang='ru'>
 				<body className={inter.className}>
 					<Topbar />
-					<main>
+					<main className='flex flex-row'>
 						<LeftSidebar />
-						<section className='main-cointaner'>
+						<section className='main-container'>
 							<div className='w-full max-w-4xl'></div>
 						</section>
 						<RightSidebar />
