@@ -1,9 +1,11 @@
-import { OrganizationSwitcher, SignedIn, SignOutButton } from '@clerk/nextjs';
-import { dark } from '@clerk/themes';
+import { OrganizationSwitcher, SignedIn, SignOutButton, UserButton, useUser } from '@clerk/nextjs';
+import { currentUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Topbar = () => {
+const Topbar = async () => {
+	const user = await currentUser();
+
 	return (
 		<nav className='topbar'>
 			<Link
@@ -11,7 +13,7 @@ const Topbar = () => {
 				className='flex items-center gap-4'
 			>
 				<Image
-					src='/logo.svg'
+					src='/assets/logo.svg'
 					alt='logo'
 					width={28}
 					height={28}
@@ -34,15 +36,8 @@ const Topbar = () => {
 						</SignOutButton>
 					</SignedIn>
 				</div>
-
-				<OrganizationSwitcher
-					appearance={{
-						baseTheme: dark,
-						elements: {
-							organizationSwitcherTrigger: 'py-2 px-4',
-						},
-					}}
-				/>
+				<p className='text-white font-semibold text-lg mr-2 '>{user?.firstName}</p>
+				<UserButton />
 			</div>
 		</nav>
 	);

@@ -11,22 +11,16 @@ async function Page() {
 	if (!user) return null; // to avoid typescript warnings
 
 	const userInfo = {};
-	// if (userInfo?.onboarded) redirect('/');
+
 	const userData = {
 		id: user?.id,
-		username: user.username,
-		name: user.firstName,
-		bio: '',
+		username: user.username || '',
+		name: user.firstName!,
+		bio: 'asd',
 		image: user.imageUrl,
 	};
-	// const userData = {
-	// 	id: user.id,
-	// 	objectId: userInfo?._id,
-	// 	username: userInfo ? userInfo?.username : user.username,
-	// 	name: userInfo ? userInfo?.name : user.firstName ?? '',
-	// 	bio: userInfo ? userInfo?.bio : '',
-	// 	image: userInfo ? userInfo?.image : user.imageUrl,
-	// };
+
+	console.log(userData);
 
 	return (
 		<main className='mx-auto flex max-w-3xl flex-col justify-start px-10 py-20'>
