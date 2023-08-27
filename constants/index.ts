@@ -12,17 +12,17 @@ export const sidebarLinks = [
 	{
 		imgURL: '/assets/heart.svg',
 		route: '/activity',
-		label: 'Activity',
+		label: 'Уведомления',
 	},
 	{
 		imgURL: '/assets/create.svg',
 		route: '/create-thread',
-		label: 'Create Thread',
+		label: 'Опубликовать',
 	},
 	{
 		imgURL: '/assets/community.svg',
 		route: '/communities',
-		label: 'Communities',
+		label: 'Сообщества',
 	},
 	{
 		imgURL: '/assets/user.svg',
@@ -32,9 +32,9 @@ export const sidebarLinks = [
 ];
 
 export const profileTabs = [
-	{ value: 'threads', label: 'Threads', icon: '/assets/reply.svg' },
-	{ value: 'replies', label: 'Replies', icon: '/assets/members.svg' },
-	{ value: 'tagged', label: 'Tagged', icon: '/assets/tag.svg' },
+	{ value: 'Threads', label: 'TalkTalk', icon: '/assets/reply.svg' },
+	{ value: 'Replies', label: 'Ответы', icon: '/assets/members.svg' },
+	{ value: 'Tagged', label: 'Упоминания', icon: '/assets/tag.svg' },
 ];
 
 export const communityTabs = [

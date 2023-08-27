@@ -9,13 +9,12 @@ export const connectTODB = async (): Promise<void> => {
 	}
 
 	if (isConnected) {
-		console.log('Already connected');
+		// console.log('Already connected');
 	}
 	try {
 		await mongoose.connect(process.env.MONGODB_URL!);
 
 		isConnected = true;
-		console.log('connected to mongodb');
 	} catch (error) {
 		console.log(error);
 	}

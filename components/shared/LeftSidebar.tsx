@@ -17,7 +17,7 @@ const LeftSidebar = () => {
 						<Link
 							key={link.label}
 							href={link.route}
-							className={`group leftsidebar_link ${isActive && 'bg-purple-600'} ${!isActive && 'hover:bg-purple-600 transition'}`}
+							className={`group leftsidebar_link rounded-2xl ${isActive && 'bg-purple-600'} ${!isActive && 'hover:bg-purple-600 transition'}`}
 						>
 							<Image
 								src={link.imgURL}
