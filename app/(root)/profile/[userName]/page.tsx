@@ -29,7 +29,7 @@ const ProfilePage = async ({ params }: { params: { userName: string } }) => {
 			/>
 			<div className='mt-9'>
 				<Tabs
-					defaultValue='threads'
+					defaultValue='Threads'
 					className='w-full'
 				>
 					<TabsList className='tab'>

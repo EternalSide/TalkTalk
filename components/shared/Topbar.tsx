@@ -1,4 +1,4 @@
-import { OrganizationSwitcher, SignedIn, SignOutButton, UserButton, useUser } from '@clerk/nextjs';
+import { SignedIn, SignOutButton, UserButton, useUser } from '@clerk/nextjs';
 import { currentUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';

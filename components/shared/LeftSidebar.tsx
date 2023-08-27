@@ -1,23 +1,27 @@
 'use client';
 import { sidebarLinks } from '@/constants';
-import { SignOutButton, SignedIn } from '@clerk/nextjs';
+import { SignOutButton, SignedIn, useAuth } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
-const LeftSidebar = () => {
+const LeftSidebar = ({ username }: { username: string }) => {
 	const router = useRouter();
 	const pathname = usePathname();
+
 	return (
 		<section className='custom-scrollbar leftsidebar '>
 			<div className='flex w-full flex-1 flex-col gap-6 pl-6 '>
 				{sidebarLinks.map((link) => {
 					const isActive = (pathname.includes(link.route) && link.route.length > 1) || pathname === link.route;
+					if (link.route === '/profile') link.route = `${link.route}/${username}`;
 					return (
 						<Link
 							key={link.label}
 							href={link.route}
-							className={`group leftsidebar_link rounded-2xl ${isActive && 'bg-purple-600'} ${!isActive && 'hover:bg-purple-600 transition'}`}
+							className={`group leftsidebar_link rounded-2xl ${isActive && 'bg-purple-600'} ${
+								!isActive && 'hover:bg-purple-600 transition'
+							}`}
 						>
 							<Image
 								src={link.imgURL}

@@ -50,6 +50,7 @@ const ThreadPage = async ({ params }: { params: { id: string } }) => {
 						community={childItem.community}
 						createdAt={childItem.createdAt}
 						comments={childItem.children}
+						username={userInfo.username}
 						isComment
 					/>
 				))}
