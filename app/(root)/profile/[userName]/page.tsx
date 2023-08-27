@@ -15,6 +15,13 @@ const ProfilePage = async ({ params }: { params: { userName: string } }) => {
 
 	const userInfo = await fetchUserByUsername(params.userName);
 
+	if (!userInfo) {
+		return (
+			<section>
+				<h2 className='head-text'>Пользователь не найден.</h2>
+			</section>
+		);
+	}
 	if (!userInfo?.onboarded) redirect('/onboarding');
 
 	return (
