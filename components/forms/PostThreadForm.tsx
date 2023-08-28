@@ -12,7 +12,7 @@ import { threadValidation } from '@/lib/validations/thread';
 import { createThread } from '@/lib/actions/thread.action';
 import Image from 'next/image';
 
-const PostThread = ({ userId, userImg }: { userId: string; userImg: string }) => {
+const PostThreadForm = ({ userId, userImg }: { userId: string; userImg: string }) => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const form = useForm({
@@ -79,4 +79,4 @@ const PostThread = ({ userId, userImg }: { userId: string; userImg: string }) =>
 		</Form>
 	);
 };
-export default PostThread;
+export default PostThreadForm;

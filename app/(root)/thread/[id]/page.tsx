@@ -1,7 +1,9 @@
 import ThreadCard from '@/components/cards/ThreadCard';
-import CommentForm from '@/components/forms/Comment';
+import CommentForm from '@/components/forms/CommentForm';
+
 import { fetchThreadById } from '@/lib/actions/thread.action';
 import { fetchUser } from '@/lib/actions/user.action';
+
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
@@ -14,43 +16,43 @@ const ThreadPage = async ({ params }: { params: { id: string } }) => {
 	const userInfo = await fetchUser(user.id);
 	if (!userInfo?.onboarded) redirect('/onboarding');
 
-	const post = await fetchThreadById(params.id);
-
+	const thread = await fetchThreadById(params.id);
+	console.log(thread.author);
 	return (
-		<section className='relative '>
+		<section className='relative'>
 			<ThreadCard
-				key={post._id}
-				id={post._id}
+				key={thread._id}
+				id={thread._id}
 				currentUserId={user?.id || ''}
-				parentId={post.parentId}
-				content={post.text}
-				author={post.author}
-				community={post.community}
-				createdAt={post.createdAt}
-				comments={post.children}
+				parentId={thread.parentId}
+				content={thread.text}
+				author={thread.author}
+				community={thread.community}
+				createdAt={thread.createdAt}
+				comments={thread.children}
 			/>
 
 			<div className='mt-7'>
 				<CommentForm
-					threadId={post.id}
+					threadId={thread.id}
 					currentUserImg={userInfo.image}
-					currentUserId={JSON.stringify(userInfo._id)}
+					currentUserId={userInfo._id.toString()}
 				/>
 			</div>
 
 			<div className='mt-10'>
-				{post.children.map((childItem: any) => (
+				{thread.children.map((comment: any) => (
 					<ThreadCard
-						key={childItem._id}
-						id={childItem._id}
-						currentUserId={childItem?.id || ''}
-						parentId={childItem.parentId}
-						content={childItem.text}
-						author={childItem.author}
-						community={childItem.community}
-						createdAt={childItem.createdAt}
-						comments={childItem.children}
-						isComment
+						key={comment._id}
+						id={comment._id}
+						currentUserId={comment?.id || ''}
+						parentId={comment.parentId}
+						content={comment.text}
+						author={comment.author}
+						community={comment.community}
+						createdAt={comment.createdAt}
+						comments={comment.children}
+						isComment={true}
 					/>
 				))}
 			</div>

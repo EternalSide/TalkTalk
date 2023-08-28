@@ -17,8 +17,6 @@ async function Page() {
 		image: userInfo.image || user.imageUrl,
 	};
 
-	console.log(userData);
-
 	return (
 		<main className='mx-auto flex max-w-3xl flex-col justify-start px-10 py-20'>
 			<h1 className='head-text'>Подтверждение аккаунта</h1>
@@ -27,10 +25,7 @@ async function Page() {
 			</p>
 
 			<section className='mt-9 bg-dark-2 p-10'>
-				<ConfirmAccountForm
-					user={userData}
-					btnTitle='Continue'
-				/>
+				<ConfirmAccountForm user={userData} />
 			</section>
 		</main>
 	);

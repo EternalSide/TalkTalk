@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { currentUser } from '@clerk/nextjs';
 import { fetchUser } from '@/lib/actions/user.action';
-import PostThread from '@/components/forms/PostThread';
+import PostThreadForm from '@/components/forms/PostThreadForm';
 
 const createThreadPage = async () => {
 	const user = await currentUser();
@@ -15,7 +15,7 @@ const createThreadPage = async () => {
 	return (
 		<>
 			<h1 className='head-text'>Добавить пост</h1>
-			<PostThread
+			<PostThreadForm
 				userImg={userInfo.image}
 				userId={userInfo._id.toString()}
 			/>

@@ -24,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 		<ClerkProvider>
 			<html lang='ru'>
 				<body className={inter.className}>
-					<Topbar firstName={user.name} />
+					<Topbar />
 					<main className='flex'>
 						<LeftSidebar username={user.username} />
 						<section className='main-container'>

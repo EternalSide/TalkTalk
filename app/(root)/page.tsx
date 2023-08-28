@@ -1,10 +1,14 @@
 import ThreadCard from '@/components/cards/ThreadCard';
 import { fetchThreads } from '@/lib/actions/thread.action';
 import { currentUser } from '@clerk/nextjs';
-
+import { redirect } from 'next/navigation';
+import { OrganizationProfile } from '@clerk/nextjs';
+import { CreateOrganization } from '@clerk/nextjs';
 export default async function Home() {
 	const data = await fetchThreads(1, 30);
 	const user = await currentUser();
+
+	if (!user) redirect('/sign-in');
 
 	return (
 		<>
@@ -25,6 +29,7 @@ export default async function Home() {
 								community={post.community}
 								createdAt={post.createdAt}
 								comments={post.children}
+								likes={post.likes || []}
 							/>
 						))}
 					</>

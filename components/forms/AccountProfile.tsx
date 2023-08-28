@@ -1,20 +1,26 @@
 'use client';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 
+import { ChangeEvent, useState } from 'react';
+
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+
+import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { userValidation } from '@/lib/validations/user';
+
+import { useForm } from 'react-hook-form';
+
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import Image from 'next/image';
-import { ChangeEvent, useState } from 'react';
-import { Textarea } from '../ui/textarea';
+
+import { userValidation } from '@/lib/validations/user';
 import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
 import { updateUser } from '@/lib/actions/user.action';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+
 interface Props {
 	user: {
 		id: string;
@@ -23,10 +29,9 @@ interface Props {
 		bio?: string;
 		image: string;
 	};
-	btnTitle: string;
 }
 
-const ConfirmAccountForm = ({ user, btnTitle }: Props) => {
+const ConfirmAccountForm = ({ user }: Props) => {
 	const [files, setFiles] = useState<File[]>();
 	const { startUpload } = useUploadThing('media');
 	const router = useRouter();

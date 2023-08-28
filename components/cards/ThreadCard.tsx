@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { BadgeCheck } from 'lucide-react';
+import LikeCard from './LikeCard';
 interface ThreadCardProps {
 	id: string;
 	isAdmin?: boolean;
+	likes?: string[];
 	currentUserId: string;
 	parentId: string | null;
 	content: string;
@@ -39,6 +41,7 @@ const ThreadCard = async ({
 	comments,
 	isComment,
 	isAdmin,
+	likes,
 }: ThreadCardProps) => {
 	return (
 		<article className={`flex w-full flex-col rounded-xl ${isComment ? 'px-0 xs:px-7' : 'bg-dark-2 p-7'}`}>
@@ -71,13 +74,17 @@ const ThreadCard = async ({
 						<p className='text-sm-regular text-light-2 mt-2'>{content}</p>
 						<div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
 							<div className='flex gap-3.5'>
-								<Image
+								<LikeCard
+									id={id.toString()}
+									userId={currentUserId}
+								/>
+								{/* <Image
 									src='/assets/heart-gray.svg'
 									alt='heart'
 									width={24}
 									height={24}
 									className='cursor-pointer object-contain'
-								/>
+								/> */}
 								<Link href={`/thread/${id}`}>
 									<Image
 										src='/assets/reply.svg'
@@ -102,11 +109,15 @@ const ThreadCard = async ({
 									className='cursor-pointer object-contain'
 								/>
 							</div>
-							{/* Блок показывается только на главных постах, isComment - если коммент - не показываем */}
+							{/* Блок показывается только на главных постах */}
 							{!isComment && comments.length > 0 && (
 								<Link href={`/thread/${id}`}>
 									<p className='mt-1 text-subtle-medium text-gray-1'>Комментариев: {comments.length}</p>
 								</Link>
+								// <div className='flex gap-x-3 items-center'>
+								// 	<p className='mt-1 text-subtle-medium text-gray-1'>Поставили лайк: {likes?.length || '66'}</p>
+
+								// </div>
 							)}
 						</div>
 					</div>

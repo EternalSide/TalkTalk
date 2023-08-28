@@ -69,15 +69,15 @@ export async function fetchThreadById(id: string) {
 		connectTODB();
 		// Здесь мы забираем пост и все комментарии к нему + комментарии к коменнтариям
 
-		const post = await Thread.findById(id)
-			.populate({ path: 'author', model: User, select: '_id id name image' })
+		const thread = await Thread.findById(id)
+			.populate({ path: 'author', model: User, select: '_id id name image username' })
 			.populate({
 				path: 'children',
 				populate: [
 					{
 						path: 'author',
 						model: User,
-						select: '_id id name parentId image',
+						select: '_id id name parentId image username',
 					},
 					{
 						path: 'children',
@@ -85,19 +85,19 @@ export async function fetchThreadById(id: string) {
 						populate: {
 							path: 'author',
 							model: User,
-							select: '_id id name parentId image',
+							select: '_id id name parentId image username',
 						},
 					},
 				],
 			})
 			.exec();
 
-		if (!post) return null;
+		if (!thread) return null;
 
-		return post;
+		return thread;
 	} catch (e: any) {
 		console.log(e.message);
-		throw new Error(`Failed to fetch post`);
+		throw new Error(`Failed to fetch thread`);
 	}
 }
 export async function addCommentToThread(id: string, commentText: string, userId: string, path: string) {
@@ -126,5 +126,30 @@ export async function addCommentToThread(id: string, commentText: string, userId
 	} catch (e: any) {
 		console.log(e.message);
 		throw new Error(`Failed to add comment`);
+	}
+}
+export async function addLikeToThread(id: string, userId: string) {
+	try {
+		connectTODB();
+		// Пользователь
+		const user = await User.findOne({ id: userId });
+
+		// Тред
+		const originalThread = await Thread.findById(id);
+
+		const isUserLikedPost = await Thread.findOne({ _id: id, likes: user._id });
+
+		if (isUserLikedPost) {
+			originalThread.likes.pull(user._id.toString());
+			await originalThread.save();
+			return originalThread.likes;
+		} else {
+			originalThread.likes.push(user._id.toString());
+			await originalThread.save();
+			return originalThread.likes;
+		}
+	} catch (e: any) {
+		console.log(e.message);
+		throw new Error(`Failed to add like`);
 	}
 }

@@ -1,4 +1,4 @@
-const page = () => {
-	return <div>page</div>;
+const CommunityPage = () => {
+	return <div>CommunityPage</div>;
 };
-export default page;
+export default CommunityPage;

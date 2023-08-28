@@ -12,7 +12,7 @@ export const sidebarLinks = [
 	{
 		imgURL: '/assets/heart.svg',
 		route: '/activity',
-		label: 'Уведомления',
+		label: 'Ответы',
 	},
 	{
 		imgURL: '/assets/create.svg',
@@ -32,7 +32,7 @@ export const sidebarLinks = [
 ];
 
 export const profileTabs = [
-	{ value: 'Threads', label: 'TalkTalk', icon: '/assets/reply.svg' },
+	{ value: 'Threads', label: 'Talk', icon: '/assets/reply.svg' },
 	{ value: 'Replies', label: 'Ответы', icon: '/assets/members.svg' },
 	{ value: 'Tagged', label: 'Упоминания', icon: '/assets/tag.svg' },
 ];
