@@ -19,7 +19,11 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const currentUserfromClerk = await currentUser();
 	const user = await fetchUser(currentUserfromClerk?.id!);
-	if (!currentUserfromClerk || !user) redirect('/sign-in');
+
+	if (!user) redirect('/onboarding');
+
+	if (!currentUserfromClerk) redirect('/sign-in');
+
 	return (
 		<ClerkProvider>
 			<html lang='ru'>
