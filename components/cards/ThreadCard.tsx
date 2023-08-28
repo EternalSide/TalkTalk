@@ -1,9 +1,9 @@
-import User from '@/lib/models/user.model';
 import Image from 'next/image';
 import Link from 'next/link';
-
+import { BadgeCheck } from 'lucide-react';
 interface ThreadCardProps {
 	id: string;
+	isAdmin?: boolean;
 	currentUserId: string;
 	parentId: string | null;
 	content: string;
@@ -38,6 +38,7 @@ const ThreadCard = async ({
 	createdAt,
 	comments,
 	isComment,
+	isAdmin,
 }: ThreadCardProps) => {
 	return (
 		<article className={`flex w-full flex-col rounded-xl ${isComment ? 'px-0 xs:px-7' : 'bg-dark-2 p-7'}`}>
@@ -62,7 +63,10 @@ const ThreadCard = async ({
 							className='w-fit'
 							href={`/profile/${author.username}`}
 						>
-							<h4 className='cursor-pointer text-base-semibold text-light-1'>{author.name}</h4>
+							<div className='flex items-center '>
+								<h4 className='cursor-pointer text-base-semibold text-light-1'>{author.name}</h4>
+								{isAdmin && <BadgeCheck className='h-4 w-4 text-indigo-600 ml-[6px] ' />}
+							</div>
 						</Link>
 						<p className='text-sm-regular text-light-2 mt-2'>{content}</p>
 						<div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
@@ -98,6 +102,7 @@ const ThreadCard = async ({
 									className='cursor-pointer object-contain'
 								/>
 							</div>
+							{/* Блок показывается только на главных постах, isComment - если коммент - не показываем */}
 							{!isComment && comments.length > 0 && (
 								<Link href={`/thread/${id}`}>
 									<p className='mt-1 text-subtle-medium text-gray-1'>Комментариев: {comments.length}</p>

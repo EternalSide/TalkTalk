@@ -11,7 +11,7 @@ export default async function Home() {
 			<h1 className='text-left head-text'>Главная</h1>
 			<section className='mt-9 flex flex-col gap-10'>
 				{data.posts.length === 0 ? (
-					<p>Посты не найдены</p>
+					<h3 className='head-text'>Посты не найдены</h3>
 				) : (
 					<>
 						{data.posts.map((post) => (
@@ -25,7 +25,7 @@ export default async function Home() {
 								community={post.community}
 								createdAt={post.createdAt}
 								comments={post.children}
-							></ThreadCard>
+							/>
 						))}
 					</>
 				)}

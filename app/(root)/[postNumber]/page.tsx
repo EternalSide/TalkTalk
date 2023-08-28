@@ -1,20 +1,22 @@
 import ThreadCard from '@/components/cards/ThreadCard';
 import CommentForm from '@/components/forms/Comment';
-import { fetchThreadById } from '@/lib/actions/thread.action';
 import { fetchUser } from '@/lib/actions/user.action';
+import Thread from '@/lib/models/thread.model';
+import User from '@/lib/models/user.model';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
-const ThreadPage = async ({ params }: { params: { id: string } }) => {
-	if (!params.id) return null;
+const postNumber = async ({ params }: { params: { postNumber: string } }) => {
+	if (!params.postNumber) return null;
 
 	const user = await currentUser();
 	if (!user) return null;
 
 	const userInfo = await fetchUser(user.id);
 	if (!userInfo?.onboarded) redirect('/onboarding');
-
-	const post = await fetchThreadById(params.id);
+	const data = await Thread.find({}).populate({ path: 'author', model: User });
+	const postNumber = Number(params.postNumber);
+	const post = data[postNumber - 1];
 
 	return (
 		<section className='relative '>
@@ -39,7 +41,7 @@ const ThreadPage = async ({ params }: { params: { id: string } }) => {
 			</div>
 
 			<div className='mt-10'>
-				{post.children.map((childItem: any) => (
+				{post?.children?.map((childItem: any) => (
 					<ThreadCard
 						key={childItem._id}
 						id={childItem._id}
@@ -57,4 +59,4 @@ const ThreadPage = async ({ params }: { params: { id: string } }) => {
 		</section>
 	);
 };
-export default ThreadPage;
+export default postNumber;

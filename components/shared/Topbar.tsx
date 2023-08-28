@@ -1,11 +1,9 @@
-import { SignedIn, SignOutButton, UserButton, useUser } from '@clerk/nextjs';
-import { currentUser } from '@clerk/nextjs';
+import { SignedIn, SignOutButton, UserButton } from '@clerk/nextjs';
+
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Topbar = async () => {
-	const user = await currentUser();
-
+const Topbar = ({ firstName }: { firstName: string }) => {
 	return (
 		<nav className='topbar'>
 			<Link
@@ -36,7 +34,7 @@ const Topbar = async () => {
 						</SignOutButton>
 					</SignedIn>
 				</div>
-				<p className='text-white font-semibold text-lg mr-2 '>{user?.firstName}</p>
+				<p className='text-white font-semibold text-lg mr-2 '>{firstName}</p>
 				<UserButton />
 			</div>
 		</nav>

@@ -1,23 +1,20 @@
-import AccountProfile from '@/components/forms/AccountProfile';
+import ConfirmAccountForm from '@/components/forms/AccountProfile';
+import { fetchUser } from '@/lib/actions/user.action';
 import { currentUser } from '@clerk/nextjs';
-import { redirect } from 'next/navigation';
-
-// import { fetchUser } from '@/lib/actions/user.actions';
-// import AccountProfile from '@/components/forms/AccountProfile';
 
 async function Page() {
 	const user = await currentUser();
 
-	if (!user) return null; // to avoid typescript warnings
+	if (!user) return null;
 
-	const userInfo = {};
+	const userInfo = await fetchUser(user.id);
 
 	const userData = {
 		id: user?.id,
-		username: user.username || '',
-		name: user.firstName!,
-		bio: 'asd',
-		image: user.imageUrl,
+		username: userInfo.username || '',
+		name: userInfo.name || user.firstName!,
+		bio: userInfo.bio || '',
+		image: userInfo.image || user.imageUrl,
 	};
 
 	console.log(userData);
@@ -26,11 +23,11 @@ async function Page() {
 		<main className='mx-auto flex max-w-3xl flex-col justify-start px-10 py-20'>
 			<h1 className='head-text'>Подтверждение аккаунта</h1>
 			<p className='mt-3 text-base-regular text-light-2'>
-				Подтвердите ваш аккаунт, чтобы продолжить, вы также можете изменить неправильные данные.
+				Подтвердите ваш аккаунт, чтобы продолжить, или измените данные для регистрация аккаунта.
 			</p>
 
 			<section className='mt-9 bg-dark-2 p-10'>
-				<AccountProfile
+				<ConfirmAccountForm
 					user={userData}
 					btnTitle='Continue'
 				/>

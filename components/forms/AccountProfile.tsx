@@ -26,7 +26,7 @@ interface Props {
 	btnTitle: string;
 }
 
-const AccountProfile = ({ user, btnTitle }: Props) => {
+const ConfirmAccountForm = ({ user, btnTitle }: Props) => {
 	const [files, setFiles] = useState<File[]>();
 	const { startUpload } = useUploadThing('media');
 	const router = useRouter();
@@ -104,15 +104,14 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
 					name='profile_photo'
 					render={({ field }) => (
 						<FormItem className='flex items-center gap-4'>
-							<FormLabel className='account-form_image-label'>
+							<FormLabel className='relative account-form_image-label'>
 								{field.value ? (
 									<Image
 										src={field.value}
 										alt='profile photo'
-										width={96}
-										height={96}
+										fill
 										priority
-										className='rounded-full object-contain'
+										className='rounded-full object-cover'
 									/>
 								) : (
 									<Image
@@ -120,7 +119,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
 										alt='logo'
 										width={24}
 										height={24}
-										className='object-contain'
+										className='object-cover'
 									/>
 								)}
 							</FormLabel>
@@ -129,7 +128,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
 									type='file'
 									accept='image/*'
 									placeholder='Загрузите изображение'
-									className='account-form_image-input object-cover'
+									className='account-form_image-input'
 									onChange={(e) => handleImage(e, field.onChange)}
 								/>
 							</FormControl>
@@ -201,4 +200,4 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
 		</Form>
 	);
 };
-export default AccountProfile;
+export default ConfirmAccountForm;

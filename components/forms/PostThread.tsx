@@ -10,19 +10,9 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { threadValidation } from '@/lib/validations/thread';
 import { createThread } from '@/lib/actions/thread.action';
+import Image from 'next/image';
 
-interface Props {
-	user: {
-		id: string;
-		username: string;
-		name: string;
-		bio?: string;
-		image: string;
-	};
-	btnTitle: string;
-}
-
-const PostThread = ({ userId }: { userId: string }) => {
+const PostThread = ({ userId, userImg }: { userId: string; userImg: string }) => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const form = useForm({
@@ -41,33 +31,51 @@ const PostThread = ({ userId }: { userId: string }) => {
 
 	return (
 		<Form {...form}>
-			<form
-				onSubmit={form.handleSubmit(onSubmit)}
-				className='mt-10 flex flex-col justify-start gap-10'
-			>
-				<FormField
-					control={form.control}
-					name='thread'
-					render={({ field }) => (
-						<FormItem className='flex flex-col  gap-3 w-full'>
-							<FormLabel className='text-base-semibold text-light-2'>Сообщение</FormLabel>
-							<FormControl className='no-focus border border-dark-4 bg-dark-3 text-light-1'>
-								<Textarea
-									rows={15}
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<Button
-					className='bg-primary-500'
-					type='submit'
+			<div className='flex justify-between mt-10 gap-x-6'>
+				<div className='relative h-14 w-14 object-cover'>
+					<Image
+						alt='Фото профиля'
+						src={userImg}
+						fill
+						className='rounded-full'
+					/>
+				</div>
+				<form
+					onSubmit={form.handleSubmit(onSubmit)}
+					className='flex flex-col justify-start gap-10 w-full'
 				>
-					Отправить Thread
-				</Button>
-			</form>
+					<FormField
+						control={form.control}
+						name='thread'
+						render={({ field }) => (
+							<FormItem className='flex flex-col  gap-3 w-full'>
+								<FormLabel className='text-base-semibold text-light-2'>Сообщение</FormLabel>
+								<FormControl className='no-focus border border-dark-4 bg-dark-3 text-light-1'>
+									<Textarea
+										rows={15}
+										{...field}
+									/>
+								</FormControl>
+							</FormItem>
+						)}
+					/>
+					<div className='ml-auto'>
+						<Button
+							className='bg-primary-500 w-40 mr-3'
+							type='submit'
+						>
+							Опубликовать
+						</Button>
+						<Button
+							type='button'
+							onClick={() => form.reset()}
+							variant='outline'
+						>
+							Очистить
+						</Button>
+					</div>
+				</form>
+			</div>
 		</Form>
 	);
 };

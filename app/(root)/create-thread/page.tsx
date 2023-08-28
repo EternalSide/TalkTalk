@@ -15,7 +15,10 @@ const createThreadPage = async () => {
 	return (
 		<>
 			<h1 className='head-text'>Добавить пост</h1>
-			<PostThread userId={userInfo._id} />
+			<PostThread
+				userImg={userInfo.image}
+				userId={userInfo._id.toString()}
+			/>
 		</>
 	);
 };

@@ -37,6 +37,7 @@ export async function fetchThreads(pageNumber = 1, pageSize = 20) {
 		const skipAmount = (pageNumber - 1) * pageSize;
 
 		// top level threads
+		// Ключевые посты без комментариев
 		const postsQuery = Thread.find({ parentId: { $in: [null, undefined] } })
 			.sort({ createdAt: 'desc' })
 			.skip(skipAmount)
