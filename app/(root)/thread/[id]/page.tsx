@@ -17,7 +17,7 @@ const ThreadPage = async ({ params }: { params: { id: string } }) => {
 	if (!userInfo?.onboarded) redirect('/onboarding');
 
 	const thread = await fetchThreadById(params.id);
-	console.log(thread.author);
+	console.log(thread);
 	return (
 		<section className='relative'>
 			<ThreadCard

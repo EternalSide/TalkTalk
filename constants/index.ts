@@ -40,5 +40,4 @@ export const profileTabs = [
 export const communityTabs = [
 	{ value: 'talk', label: 'Talk', icon: '/assets/reply.svg' },
 	{ value: 'members', label: 'Участники', icon: '/assets/members.svg' },
-	{ value: 'requests', label: 'Запросы', icon: '/assets/request.svg' },
 ];

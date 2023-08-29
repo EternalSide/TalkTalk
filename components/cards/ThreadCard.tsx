@@ -62,6 +62,7 @@ const ThreadCard = async ({
 						</Link>
 						<div className='thread-card_bar' />
 					</div>
+
 					<div className='flex w-full flex-col'>
 						<Link
 							className='w-fit'
@@ -110,21 +111,32 @@ const ThreadCard = async ({
 									className='cursor-pointer object-contain'
 								/>
 							</div>
-							{/* Блок показывается только на главных постах */}
-							{!isComment && comments.length > 0 && (
-								<Link href={`/thread/${id}`}>
-									<p className='mt-1 text-subtle-medium text-gray-1'>Комментариев: {comments.length}</p>
-								</Link>
-								// <div className='flex gap-x-3 items-center'>
-								// 	<p className='mt-1 text-subtle-medium text-gray-1'>Поставили лайк: {likes?.length || '66'}</p>
-
-								// </div>
-							)}
 						</div>
 					</div>
 				</div>
 			</div>
+			{/* Блок показывается только на главных постах */}
+			{!isComment && comments.length > 0 && (
+				<Link
+					href={`/thread/${id}`}
+					className='mt-3 ml-[10px] flex items-center gap-x-2'
+				>
+					<div className='relative h-[24px] w-[24px]'>
+						<Image
+							src={comments[comments.length - 1]?.author?.image}
+							alt='share'
+							fill
+							className='cursor-pointer object-cover rounded-full'
+						/>
+					</div>
 
+					<p className='mt-1 text-subtle-medium text-gray-1'>Комментариев: {comments.length}</p>
+				</Link>
+				// <div className='flex gap-x-3 items-center'>
+				// 	<p className='mt-1 text-subtle-medium text-gray-1'>Поставили лайк: {likes?.length || '66'}</p>
+
+				// </div>
+			)}
 			{!isComment && !community && (
 				<Link
 					href={`/profile/${author.username}`}

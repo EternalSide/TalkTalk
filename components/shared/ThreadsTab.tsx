@@ -18,8 +18,6 @@ const ThreadsTab = async ({ currentUserId, accountId, accountType }: Props) => {
 		data = await fetchUserPosts(accountId);
 	}
 
-	// if (!data) redirect('/');
-
 	return (
 		<section className='mt-9 gap-10 flex flex-col'>
 			{data.threads.map((thread: any) => {
@@ -46,6 +44,9 @@ const ThreadsTab = async ({ currentUserId, accountId, accountType }: Props) => {
 					/>
 				);
 			})}
+			{data.threads.length === 0 && (
+				<h2 className='font-bold text-heading4-medium text-neutral-500 text-center mt-16'>Посты отсутствуют.</h2>
+			)}
 		</section>
 	);
 };

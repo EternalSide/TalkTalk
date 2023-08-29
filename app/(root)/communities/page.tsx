@@ -22,7 +22,7 @@ const SearchPage = async () => {
 
 	return (
 		<section>
-			<h1 className='head-text mb-10'>Поиск</h1>
+			<h1 className='head-text mb-10'>Сообщества</h1>
 			<div className='mt-14 flex justify-center  gap-3 max-lg:flex-col max-lg:items-center'>
 				{results.communities.length === 0 ? (
 					<p className='no-result'>Пользователи не найдены</p>

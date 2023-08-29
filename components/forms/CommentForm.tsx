@@ -26,7 +26,7 @@ const CommentForm = ({ threadId, currentUserImg, currentUserId }: Props) => {
 	});
 
 	const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
-		await addCommentToThread(threadId, values.thread, JSON.parse(currentUserId), pathname);
+		await addCommentToThread(threadId, values.thread, currentUserId, pathname);
 
 		form.reset();
 	};
@@ -41,15 +41,16 @@ const CommentForm = ({ threadId, currentUserImg, currentUserId }: Props) => {
 					control={form.control}
 					name='thread'
 					render={({ field }) => (
-						<FormItem className='flex items-center  gap-3 w-full'>
+						<FormItem className='flex items-center gap-3 w-full'>
 							<FormLabel>
-								<Image
-									alt='Фото пользователя'
-									src={currentUserImg}
-									width={48}
-									height={48}
-									className='rounded-full object-cover'
-								/>
+								<div className='h-[48px] w-[48px] relative'>
+									<Image
+										alt='Фото пользователя'
+										src={currentUserImg}
+										fill
+										className='rounded-full object-cover'
+									/>
+								</div>
 							</FormLabel>
 							<FormControl className='border-none bg-transparent'>
 								<Input

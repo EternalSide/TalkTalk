@@ -85,6 +85,7 @@ export async function fetchThreadById(id: string) {
 		// Здесь мы забираем пост и все комментарии к нему + комментарии к коменнтариям
 
 		const thread = await Thread.findById(id)
+			.populate({ path: 'community', model: Community })
 			.populate({ path: 'author', model: User, select: '_id id name image username' })
 			.populate({
 				path: 'children',
