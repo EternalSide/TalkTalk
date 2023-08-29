@@ -1,10 +1,10 @@
 # Социальная Сеть с бесконечно вложенными комментариями | React, Next JS, TypeScript, MongoDB
 
-![App](https://ibb.co/MDXtf3b)
+![Threads](https://i.ibb.co/ccmZw7P/talktalk.png)
 
-## Ссылка на проект - Deploy
+## Проект
 
-📚 https://talk-talk-orpin.vercel.app/
+👨‍💻 https://talk-talk-orpin.vercel.app/
 
 ## Инфо
 
@@ -12,8 +12,8 @@
 
 ⭐ Использовалось:
 
-- Next.js 13 && SSR
-- MongoDB && mongoose
+- Next.js 13 & SSR
+- MongoDB & mongoose
 - TailwindCSS
 - Clerk для регистрация/входа
 - UploadThing для загрузки и хостинга файлов
