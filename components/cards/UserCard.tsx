@@ -16,12 +16,12 @@ const UserCard = ({ id, name, username, imgUrl, personType }: Props) => {
 	return (
 		<article className='user-card'>
 			<div className='user-card_avatar'>
-				<div className=' relative w-[48px] h-[48px] object-cover'>
+				<div className=' relative w-[48px] h-[48px]'>
 					<Image
 						alt='Фото профиля'
 						src={imgUrl}
 						fill
-						className='rounded-full '
+						className='rounded-full object-cover object-center'
 					/>
 				</div>
 				<div className='text-ellipsis flex-1'>
@@ -30,7 +30,9 @@ const UserCard = ({ id, name, username, imgUrl, personType }: Props) => {
 				</div>
 			</div>
 			<Button
-				onClick={() => router.push(`/profile/${username}`)}
+				onClick={() => {
+					personType === 'Community' ? router.push(`/communities/${id}`) : router.push(`/profile/${username}`);
+				}}
 				className='user-card_btn'
 			>
 				{personType === 'Community' ? 'Перейти' : 'Профиль'}

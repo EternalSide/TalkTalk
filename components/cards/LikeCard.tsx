@@ -29,14 +29,14 @@ const LikeCard = ({ id, userId }: { id: string; userId: string }) => {
 					onClick={() => {}}
 					width={20}
 					height={20}
-					className='cursor-pointer object-contain text-indigo-500 mt-[2px]'
+					className='cursor-pointer object-contain mt-[2px]'
 				/>
 			) : (
 				<Heart
 					onClick={() => {}}
 					width={20}
 					height={20}
-					className='cursor-pointer object-contain text-indigo-500 mt-[2px]'
+					className='cursor-pointer object-contain text-neutral-600 mt-[2px]'
 				/>
 			)}
 		</>

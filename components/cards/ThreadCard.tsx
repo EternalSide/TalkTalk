@@ -124,13 +124,23 @@ const ThreadCard = async ({
 					</div>
 				</div>
 			</div>
+
+			{!isComment && !community && (
+				<Link
+					href={`/profile/${author.username}`}
+					className='mt-5 flex items-center'
+				>
+					<p className='text-subtle-medium text-gray-1'>{formatDateString(createdAt)}</p>
+				</Link>
+			)}
+
 			{!isComment && community && (
 				<Link
-					href={`/communites/${community.id}`}
+					href={`/communities/${community.id}`}
 					className='mt-5 flex items-center'
 				>
 					<p className='text-subtle-medium text-gray-1'>
-						{formatDateString(createdAt)} - {community.name} сообщество
+						{formatDateString(createdAt)} - опубликовано в сообществе: {community.name}
 					</p>
 					<Image
 						alt='Фото сообщества'

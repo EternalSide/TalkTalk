@@ -16,12 +16,12 @@ const ProfileHeader = ({ accountId, authUserId, name, username, imgUrl, bio }: P
 			<div className='flex items-center  justify-between'>
 				<div className='flex items-center gap-3'>
 					{/* Фото */}
-					<div className='relative h-20 w-20 object-cover'>
+					<div className='relative h-20 w-20'>
 						<Image
 							alt='Фото профиля'
 							src={imgUrl}
 							fill
-							className='rounded-full'
+							className='rounded-full object-cover object-center'
 						/>
 					</div>
 					{/* Имя юзернейм */}

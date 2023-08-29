@@ -72,6 +72,7 @@ export async function fetchUserPosts(userId: string) {
 				},
 			},
 			model: Thread,
+
 			populate: {
 				path: 'children',
 				model: Thread,
@@ -80,10 +81,6 @@ export async function fetchUserPosts(userId: string) {
 					model: User,
 					select: 'name image id',
 				},
-			},
-			populate: {
-				path: 'community',
-				model: Community,
 			},
 		});
 

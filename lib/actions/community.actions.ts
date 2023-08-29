@@ -90,7 +90,7 @@ export async function fetchCommunityPosts(id: string) {
 				{
 					path: 'author',
 					model: User,
-					select: 'name image id',
+					select: 'name image id username',
 				},
 				{ path: 'community', model: Community },
 				{

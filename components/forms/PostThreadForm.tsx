@@ -38,13 +38,13 @@ const PostThreadForm = ({ userId, userImg }: { userId: string; userImg: string }
 
 	return (
 		<Form {...form}>
-			<div className='flex justify-between mt-10 gap-x-6'>
-				<div className='relative h-14 w-14 object-cover'>
+			<div className='flex justify-between mt-10 gap-x-3'>
+				<div className='relative h-14 w-14'>
 					<Image
 						alt='Фото профиля'
 						src={userImg}
 						fill
-						className='rounded-full'
+						className='rounded-full object-cover object-center'
 					/>
 				</div>
 				<form
