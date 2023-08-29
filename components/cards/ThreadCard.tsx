@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BadgeCheck } from 'lucide-react';
 import LikeCard from './LikeCard';
+import { formatDateString } from '@/lib/utils';
 interface ThreadCardProps {
 	id: string;
 	isAdmin?: boolean;
@@ -123,6 +124,23 @@ const ThreadCard = async ({
 					</div>
 				</div>
 			</div>
+			{!isComment && community && (
+				<Link
+					href={`/communites/${community.id}`}
+					className='mt-5 flex items-center'
+				>
+					<p className='text-subtle-medium text-gray-1'>
+						{formatDateString(createdAt)} - {community.name} сообщество
+					</p>
+					<Image
+						alt='Фото сообщества'
+						src={community.image}
+						width={14}
+						height={14}
+						className='ml-1 rounded-full object-cover'
+					/>
+				</Link>
+			)}
 		</article>
 	);
 };

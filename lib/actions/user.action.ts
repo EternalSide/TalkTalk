@@ -5,6 +5,7 @@ import User from '../models/user.model';
 import { revalidatePath } from 'next/cache';
 import Thread from '../models/thread.model';
 import { FilterQuery, SortOrder } from 'mongoose';
+import Community from '../models/community.model';
 
 interface updateUserProps {
 	userId: string;
@@ -80,6 +81,10 @@ export async function fetchUserPosts(userId: string) {
 					select: 'name image id',
 				},
 			},
+			populate: {
+				path: 'community',
+				model: Community,
+			},
 		});
 
 		return threads;
@@ -131,6 +136,21 @@ export async function fetchUsers({
 		const isNext = totalUserCount > skipAmount + users.length;
 
 		return { users, isNext };
+	} catch (e) {
+		console.log(e);
+		throw new Error('Failed to fetch users ');
+	}
+}
+
+export async function getRecomendedUsers() {
+	try {
+		connectTODB();
+
+		const usersQuery = User.find().sort({ createdAt: 'desc' }).limit(3);
+
+		const users = await usersQuery.exec();
+
+		return users;
 	} catch (e) {
 		console.log(e);
 		throw new Error('Failed to fetch users ');

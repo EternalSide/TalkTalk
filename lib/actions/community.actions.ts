@@ -66,6 +66,18 @@ export async function fetchCommunityDetails(id: string) {
 		throw error;
 	}
 }
+export async function getRecomendedCommunites() {
+	try {
+		connectToDB();
+
+		const communites = await Community.find().sort({ createdAt: 'desc' }).limit(3);
+
+		return communites;
+	} catch (e) {
+		console.log(e);
+		throw new Error('Failed to fetch comm ');
+	}
+}
 
 export async function fetchCommunityPosts(id: string) {
 	try {
@@ -80,6 +92,7 @@ export async function fetchCommunityPosts(id: string) {
 					model: User,
 					select: 'name image id',
 				},
+				{ path: 'community', model: Community },
 				{
 					path: 'children',
 					model: Thread,

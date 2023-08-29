@@ -11,10 +11,12 @@ import { useRouter } from 'next/navigation';
 import { threadValidation } from '@/lib/validations/thread';
 import { createThread } from '@/lib/actions/thread.action';
 import Image from 'next/image';
+import { useOrganization } from '@clerk/nextjs';
 
 const PostThreadForm = ({ userId, userImg }: { userId: string; userImg: string }) => {
 	const router = useRouter();
 	const pathname = usePathname();
+	const { organization } = useOrganization();
 	const form = useForm({
 		resolver: zodResolver(threadValidation),
 		defaultValues: {
@@ -24,7 +26,12 @@ const PostThreadForm = ({ userId, userImg }: { userId: string; userImg: string }
 	});
 
 	const onSubmit = async (values: z.infer<typeof threadValidation>) => {
-		await createThread({ text: values.thread, author: userId, communityId: 'asd', path: pathname });
+		await createThread({
+			text: values.thread,
+			author: userId,
+			communityId: organization ? organization?.id : null,
+			path: pathname,
+		});
 
 		router.push('/');
 	};

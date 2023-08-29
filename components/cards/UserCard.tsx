@@ -8,7 +8,7 @@ interface Props {
 	name: string;
 	username: string;
 	imgUrl: string;
-	personType?: string;
+	personType?: 'User' | 'Community';
 }
 
 const UserCard = ({ id, name, username, imgUrl, personType }: Props) => {
@@ -16,13 +16,14 @@ const UserCard = ({ id, name, username, imgUrl, personType }: Props) => {
 	return (
 		<article className='user-card'>
 			<div className='user-card_avatar'>
-				<Image
-					alt='Фото профиля'
-					src={imgUrl}
-					width={48}
-					height={48}
-					className='rounded-full'
-				/>
+				<div className=' relative w-[48px] h-[48px] object-cover'>
+					<Image
+						alt='Фото профиля'
+						src={imgUrl}
+						fill
+						className='rounded-full '
+					/>
+				</div>
 				<div className='text-ellipsis flex-1'>
 					<h4 className='text-base-semibold text-light-1'>{name}</h4>
 					<p className='text-small-medium text-gray-1'>@{username}</p>
@@ -32,7 +33,7 @@ const UserCard = ({ id, name, username, imgUrl, personType }: Props) => {
 				onClick={() => router.push(`/profile/${username}`)}
 				className='user-card_btn'
 			>
-				Профиль
+				{personType === 'Community' ? 'Перейти' : 'Профиль'}
 			</Button>
 		</article>
 	);

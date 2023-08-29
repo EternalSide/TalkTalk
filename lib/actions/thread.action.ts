@@ -3,6 +3,7 @@ import { connectTODB } from '../mongoose';
 import Thread from '../models/thread.model';
 import User from '../models/user.model';
 import { revalidatePath } from 'next/cache';
+import Community from '../models/community.model';
 
 interface Props {
 	text: string;
@@ -14,19 +15,29 @@ interface Props {
 export async function createThread({ text, author, communityId, path }: Props) {
 	try {
 		connectTODB();
+
+		const communityIdObject = await Community.findOne({ id: communityId }, { _id: 1 });
+
 		const createdThread = await Thread.create({
 			text,
 			author,
+			community: communityIdObject, // Assign communityId if provided, or leave it null for personal account
 		});
 
 		await User.findByIdAndUpdate(author, {
 			$push: { threads: createdThread._id },
 		});
 
+		if (communityIdObject) {
+			// Update Community model
+			await Community.findByIdAndUpdate(communityIdObject, {
+				$push: { threads: createdThread._id },
+			});
+		}
+
 		revalidatePath(path);
-	} catch (e: any) {
-		console.log(e.message);
-		throw new Error(`Failed to create thread`);
+	} catch (error: any) {
+		throw new Error(`Failed to create thread: ${error.message}`);
 	}
 }
 
@@ -42,6 +53,10 @@ export async function fetchThreads(pageNumber = 1, pageSize = 20) {
 			.sort({ createdAt: 'desc' })
 			.skip(skipAmount)
 			.limit(pageSize)
+			.populate({
+				path: 'community',
+				model: Community,
+			})
 			.populate({ path: 'author', model: User })
 			.populate({
 				path: 'children',
