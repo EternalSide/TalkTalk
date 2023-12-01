@@ -2,7 +2,7 @@
 
 ![Threads](https://i.ibb.co/ccmZw7P/talktalk.png)
 
-## Проект
+## Деплой
 
 👨‍💻 https://talk-talk-orpin.vercel.app/
 
