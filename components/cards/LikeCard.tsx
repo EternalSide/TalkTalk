@@ -1,25 +1,15 @@
-'use client';
+"use client";
+import {Heart, HeartOff} from "lucide-react";
+import {useState} from "react";
 
-import { addLikeToThread } from '@/lib/actions/thread.action';
-
-import { Heart, HeartOff } from 'lucide-react';
-
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-
-const LikeCard = ({ id, userId }: { id: string; userId: string }) => {
-	const router = useRouter();
+const LikeCard = ({
+	id,
+	userId,
+}: {
+	id: string;
+	userId: string | undefined | null;
+}) => {
 	const [isLiked, setIsLiked] = useState(false);
-	const handleLike = async () => {
-		try {
-			const likes = await addLikeToThread(id, userId);
-
-			setIsLiked(!isLiked);
-			router.refresh();
-		} catch (e) {
-			console.log(e);
-		}
-	};
 
 	return (
 		<>

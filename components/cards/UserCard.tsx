@@ -17,10 +17,14 @@ const UserCard = ({ id, name, username, imgUrl, personType }: Props) => {
 		<article className='user-card'>
 			<div className='user-card_avatar'>
 				<div className=' relative w-[48px] h-[48px]'>
-					<Image
+					{/* <Image
 						alt='Фото профиля'
 						src={imgUrl}
 						fill
+						className='rounded-full object-cover object-center'
+					/> */}
+					<img
+						src={imgUrl}
 						className='rounded-full object-cover object-center'
 					/>
 				</div>

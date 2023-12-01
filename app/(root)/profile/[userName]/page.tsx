@@ -1,17 +1,15 @@
-import { redirect } from 'next/navigation';
-import { currentUser } from '@clerk/nextjs';
-import { fetchUserByUsername } from '@/lib/actions/user.action';
+import {redirect} from "next/navigation";
+import {currentUser} from "@clerk/nextjs";
+import {fetchUserByUsername} from "@/lib/actions/user.action";
 
-import ProfileHeader from '@/components/shared/ProfileHeader';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { profileTabs } from '@/constants';
-import Image from 'next/image';
-import ThreadsTab from '@/components/shared/ThreadsTab';
+import ProfileHeader from "@/components/shared/ProfileHeader";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
+import {profileTabs} from "@/constants";
+import Image from "next/image";
+import ThreadsTab from "@/components/shared/ThreadsTab";
 
-const ProfilePage = async ({ params }: { params: { userName: string } }) => {
+const ProfilePage = async ({params}: {params: {userName: string}}) => {
 	const user = await currentUser();
-
-	if (!user) return null;
 
 	const userInfo = await fetchUserByUsername(params.userName);
 
@@ -22,13 +20,11 @@ const ProfilePage = async ({ params }: { params: { userName: string } }) => {
 			</section>
 		);
 	}
-	if (!userInfo?.onboarded) redirect('/onboarding');
+	if (!userInfo?.onboarded) redirect("/onboarding");
 
 	return (
 		<section>
 			<ProfileHeader
-				accountId={userInfo.id}
-				authUserId={user.id}
 				name={userInfo.name}
 				username={userInfo.username}
 				imgUrl={userInfo.image}
@@ -54,7 +50,7 @@ const ProfilePage = async ({ params }: { params: { userName: string } }) => {
 									className='object-contain'
 								/>
 								<p className='max-sm:hidden'>{tab.label}</p>
-								{tab.value === 'Threads' && (
+								{tab.value === "Threads" && (
 									<p className='ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
 										{userInfo?.threads?.length}
 									</p>
@@ -69,7 +65,7 @@ const ProfilePage = async ({ params }: { params: { userName: string } }) => {
 							className='w-full text-light-1'
 						>
 							<ThreadsTab
-								currentUserId={user.id}
+								currentUserId={user?.id}
 								accountId={userInfo.id}
 								accountType='User'
 							/>

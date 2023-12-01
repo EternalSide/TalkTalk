@@ -1,18 +1,13 @@
 import CommunityCard from '@/components/cards/CommunityCard';
 import UserCard from '@/components/cards/UserCard';
 import { fetchCommunities } from '@/lib/actions/community.actions';
+import { getCurrentUser } from '@/lib/actions/getCurrentUser';
 import { fetchUser, fetchUsers } from '@/lib/actions/user.action';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
 const SearchPage = async () => {
-	const user = await currentUser();
-
-	if (!user) return null;
-
-	const userInfo = await fetchUser(user.id);
-
-	if (!userInfo?.onboarded) redirect('/onboarding');
+	await getCurrentUser();
 
 	const results = await fetchCommunities({
 		searchString: '',
@@ -23,7 +18,7 @@ const SearchPage = async () => {
 	return (
 		<section>
 			<h1 className='head-text mb-10'>Сообщества</h1>
-			<div className='mt-14 flex justify-center  gap-3 max-lg:flex-col max-lg:items-center'>
+			<div className='mt-14 flex flex-wrap justify-center  gap-3 max-lg:flex-col max-lg:items-center'>
 				{results.communities.length === 0 ? (
 					<p className='no-result'>Пользователи не найдены</p>
 				) : (

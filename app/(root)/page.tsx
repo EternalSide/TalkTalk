@@ -1,13 +1,13 @@
-import ThreadCard from '@/components/cards/ThreadCard';
-import { fetchThreads } from '@/lib/actions/thread.action';
-import { currentUser } from '@clerk/nextjs';
-import { redirect } from 'next/navigation';
+import ThreadCard from "@/components/cards/ThreadCard";
+import {fetchThreads} from "@/lib/actions/thread.action";
+import {currentUser} from "@clerk/nextjs";
+import {redirect} from "next/navigation";
 
 export default async function Home() {
 	const data = await fetchThreads(1, 30);
 	const user = await currentUser();
 
-	if (!user) redirect('/sign-in');
+	// if (!user) redirect('/sign-in');
 
 	return (
 		<>
@@ -21,7 +21,7 @@ export default async function Home() {
 							<ThreadCard
 								key={post._id}
 								id={post._id}
-								currentUserId={user?.id || ''}
+								currentUserId={user?.id || ""}
 								parentId={post.parentId}
 								content={post.text}
 								author={post.author}

@@ -1,11 +1,11 @@
-'use server';
+"use server";
 
-import { connectTODB } from '@/lib/mongoose';
-import User from '../models/user.model';
-import { revalidatePath } from 'next/cache';
-import Thread from '../models/thread.model';
-import { FilterQuery, SortOrder } from 'mongoose';
-import Community from '../models/community.model';
+import {connectTODB} from "@/lib/mongoose";
+import User from "../models/user.model";
+import {revalidatePath} from "next/cache";
+import Thread from "../models/thread.model";
+import {FilterQuery, SortOrder} from "mongoose";
+import Community from "../models/community.model";
 
 interface updateUserProps {
 	userId: string;
@@ -16,7 +16,14 @@ interface updateUserProps {
 	name: string;
 }
 
-export const updateUser = async ({ userId, path, username, bio, image, name }: updateUserProps): Promise<void> => {
+export const updateUser = async ({
+	userId,
+	path,
+	username,
+	bio,
+	image,
+	name,
+}: updateUserProps): Promise<void> => {
 	try {
 		connectTODB();
 		await User.findOneAndUpdate(
@@ -30,56 +37,60 @@ export const updateUser = async ({ userId, path, username, bio, image, name }: u
 				image,
 				onboarded: true,
 			},
-			{ upsert: true }
+			{upsert: true}
 		);
 
-		if (path === '/profile/edit') revalidatePath(path);
+		if (path === "/profile/edit") revalidatePath(path);
 	} catch (e: any) {
 		console.log(e.message);
 		throw new Error(`Failed to create or update user`);
 	}
 };
 
-export async function fetchUser(userId: string) {
+export async function fetchUser(userId: string | undefined) {
 	try {
 		connectTODB();
 
-		return await User.findOne({ id: userId });
+		const user = await User.findOne({id: userId});
+
+		if (!user) return null;
+
+		return user;
 	} catch (e) {
 		console.log(e);
-		throw new Error('Failed to fetch user :( ');
+		throw new Error("Failed to fetch user :( ");
 	}
 }
 export async function fetchUserByUsername(username: string) {
 	try {
 		connectTODB();
 
-		return await User.findOne({ username: username });
+		return await User.findOne({username: username});
 	} catch (e) {
 		console.log(e);
-		throw new Error('Failed to fetch user :( ');
+		throw new Error("Failed to fetch user :( ");
 	}
 }
 export async function fetchUserPosts(userId: string) {
 	try {
 		connectTODB();
 
-		const threads = await User.findOne({ id: userId }).populate({
-			path: 'threads',
+		const threads = await User.findOne({id: userId}).populate({
+			path: "threads",
 			options: {
 				sort: {
-					createdAt: 'desc',
+					createdAt: "desc",
 				},
 			},
 			model: Thread,
 
 			populate: {
-				path: 'children',
+				path: "children",
 				model: Thread,
 				populate: {
-					path: 'author',
+					path: "author",
 					model: User,
-					select: 'name image id',
+					select: "name image id",
 				},
 			},
 		});
@@ -87,16 +98,16 @@ export async function fetchUserPosts(userId: string) {
 		return threads;
 	} catch (e) {
 		console.log(e);
-		throw new Error('Failed to fetch user posts :( ');
+		throw new Error("Failed to fetch user posts :( ");
 	}
 }
 
 export async function fetchUsers({
 	userId,
-	searchString = '',
+	searchString = "",
 	pageNumber = 1,
 	pageSize = 10,
-	sortBy = 'desc',
+	sortBy = "desc",
 }: {
 	userId: string;
 	searchString?: string;
@@ -109,22 +120,25 @@ export async function fetchUsers({
 
 		const skipAmount = (pageNumber - 1) * pageSize;
 
-		const regex = new RegExp(searchString, 'i');
+		const regex = new RegExp(searchString, "i");
 
 		const query: FilterQuery<typeof User> = {
-			id: { $ne: userId },
+			id: {$ne: userId},
 		};
 
-		if (searchString.trim() !== '') {
+		if (searchString.trim() !== "") {
 			query.$or = [
 				{
-					username: { $regex: regex },
+					username: {$regex: regex},
 				},
-				{ name: { $regex: regex } },
+				{name: {$regex: regex}},
 			];
 		}
 
-		const usersQuery = User.find(query).sort({ createdAt: sortBy }).skip(skipAmount).limit(pageSize);
+		const usersQuery = User.find(query)
+			.sort({createdAt: sortBy})
+			.skip(skipAmount)
+			.limit(pageSize);
 
 		const totalUserCount = await User.countDocuments(query);
 
@@ -132,10 +146,10 @@ export async function fetchUsers({
 
 		const isNext = totalUserCount > skipAmount + users.length;
 
-		return { users, isNext };
+		return {users, isNext};
 	} catch (e) {
 		console.log(e);
-		throw new Error('Failed to fetch users ');
+		throw new Error("Failed to fetch users ");
 	}
 }
 
@@ -143,14 +157,14 @@ export async function getRecomendedUsers() {
 	try {
 		connectTODB();
 
-		const usersQuery = User.find().sort({ createdAt: 'desc' }).limit(3);
+		const usersQuery = User.find().sort({createdAt: "desc"}).limit(3);
 
 		const users = await usersQuery.exec();
 
 		return users;
 	} catch (e) {
 		console.log(e);
-		throw new Error('Failed to fetch users ');
+		throw new Error("Failed to fetch users ");
 	}
 }
 
@@ -158,7 +172,7 @@ export async function getActivity(userId: string) {
 	try {
 		connectTODB();
 		// Все посты пользователя
-		const userThreads = await Thread.find({ author: userId });
+		const userThreads = await Thread.find({author: userId});
 
 		// Все комментарии к посту
 		const childThreadIds = userThreads.reduce((acc, userThread) => {
@@ -167,12 +181,12 @@ export async function getActivity(userId: string) {
 
 		// мы находим комментарии поста по айдишнику
 		const replies = await Thread.find({
-			_id: { $in: childThreadIds },
-			author: { $ne: userId },
+			_id: {$in: childThreadIds},
+			author: {$ne: userId},
 		}).populate({
-			path: 'author',
+			path: "author",
 			model: User,
-			select: 'name image _id',
+			select: "name image _id",
 		});
 
 		return replies;

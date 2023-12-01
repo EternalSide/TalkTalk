@@ -1,13 +1,13 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { BadgeCheck } from 'lucide-react';
-import LikeCard from './LikeCard';
-import { formatDateString } from '@/lib/utils';
+import Image from "next/image";
+import Link from "next/link";
+import {BadgeCheck} from "lucide-react";
+import LikeCard from "./LikeCard";
+import {formatDateString} from "@/lib/utils";
 interface ThreadCardProps {
 	id: string;
 	isAdmin?: boolean;
 	likes?: string[];
-	currentUserId: string;
+	currentUserId: string | null | undefined;
 	parentId: string | null;
 	content: string;
 	author: {
@@ -45,7 +45,11 @@ const ThreadCard = async ({
 	likes,
 }: ThreadCardProps) => {
 	return (
-		<article className={`flex w-full flex-col rounded-xl ${isComment ? 'px-0 xs:px-7' : 'bg-dark-2 p-7'}`}>
+		<article
+			className={`flex w-full flex-col rounded-xl ${
+				isComment ? "px-0 xs:px-7" : "bg-dark-2 p-7"
+			}`}
+		>
 			<div className='flex items-start justify-between'>
 				<div className='flex w-full flex-1 flex-row gap-4'>
 					<div className='flex flex-col items-center'>
@@ -69,24 +73,21 @@ const ThreadCard = async ({
 							href={`/profile/${author.username}`}
 						>
 							<div className='flex items-center '>
-								<h4 className='cursor-pointer text-base-semibold text-light-1'>{author.name}</h4>
-								{isAdmin && <BadgeCheck className='h-4 w-4 text-indigo-600 ml-[6px] ' />}
+								<h4 className='cursor-pointer text-base-semibold text-light-1'>
+									{author.name}
+								</h4>
+								{isAdmin && (
+									<BadgeCheck className='h-4 w-4 text-indigo-600 ml-[6px] ' />
+								)}
 							</div>
 						</Link>
 						<p className='text-sm-regular text-light-2 mt-2'>{content}</p>
-						<div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
+						<div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
 							<div className='flex gap-3.5'>
 								<LikeCard
 									id={id.toString()}
 									userId={currentUserId}
 								/>
-								{/* <Image
-									src='/assets/heart-gray.svg'
-									alt='heart'
-									width={24}
-									height={24}
-									className='cursor-pointer object-contain'
-								/> */}
 								<Link href={`/thread/${id}`}>
 									<Image
 										src='/assets/reply.svg'
@@ -130,7 +131,9 @@ const ThreadCard = async ({
 						/>
 					</div>
 
-					<p className='mt-1 text-subtle-medium text-gray-1'>Комментариев: {comments.length}</p>
+					<p className='mt-1 text-subtle-medium text-gray-1'>
+						Комментариев: {comments.length}
+					</p>
 				</Link>
 				// <div className='flex gap-x-3 items-center'>
 				// 	<p className='mt-1 text-subtle-medium text-gray-1'>Поставили лайк: {likes?.length || '66'}</p>
@@ -142,7 +145,9 @@ const ThreadCard = async ({
 					href={`/profile/${author.username}`}
 					className='mt-5 flex items-center'
 				>
-					<p className='text-subtle-medium text-gray-1'>{formatDateString(createdAt)}</p>
+					<p className='text-subtle-medium text-gray-1'>
+						{formatDateString(createdAt)}
+					</p>
 				</Link>
 			)}
 
@@ -152,7 +157,8 @@ const ThreadCard = async ({
 					className='mt-5 flex items-center'
 				>
 					<p className='text-subtle-medium text-gray-1'>
-						{formatDateString(createdAt)} - опубликовано в сообществе: {community.name}
+						{formatDateString(createdAt)} - опубликовано в сообществе:{" "}
+						{community.name}
 					</p>
 					<Image
 						alt='Фото сообщества'

@@ -1,18 +1,11 @@
-import { fetchUser, getActivity } from '@/lib/actions/user.action';
-import { currentUser } from '@clerk/nextjs';
+import { getCurrentUser } from '@/lib/actions/getCurrentUser';
+import { getActivity } from '@/lib/actions/user.action';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 const ActivityPage = async () => {
-	const user = await currentUser();
-
-	if (!user) return null;
-
-	const userInfo = await fetchUser(user.id);
-
-	if (!userInfo?.onboarded) redirect('/onboarding');
+	const { userInfo } = await getCurrentUser();
 
 	const activity = await getActivity(userInfo._id.toString());
 

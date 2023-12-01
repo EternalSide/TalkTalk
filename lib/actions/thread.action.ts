@@ -1,9 +1,9 @@
-'use server';
-import { connectTODB } from '../mongoose';
-import Thread from '../models/thread.model';
-import User from '../models/user.model';
-import { revalidatePath } from 'next/cache';
-import Community from '../models/community.model';
+"use server";
+import {connectTODB} from "../mongoose";
+import Thread from "../models/thread.model";
+import User from "../models/user.model";
+import {revalidatePath} from "next/cache";
+import Community from "../models/community.model";
 
 interface Props {
 	text: string;
@@ -12,26 +12,26 @@ interface Props {
 	path: string;
 }
 
-export async function createThread({ text, author, communityId, path }: Props) {
+export async function createThread({text, author, communityId, path}: Props) {
 	try {
 		connectTODB();
 
-		const communityIdObject = await Community.findOne({ id: communityId }, { _id: 1 });
+		const communityIdObject = await Community.findOne({id: communityId}, {_id: 1});
 
 		const createdThread = await Thread.create({
 			text,
 			author,
-			community: communityIdObject, // Assign communityId if provided, or leave it null for personal account
+			community: communityIdObject,
 		});
 
 		await User.findByIdAndUpdate(author, {
-			$push: { threads: createdThread._id },
+			$push: {threads: createdThread._id},
 		});
 
 		if (communityIdObject) {
 			// Update Community model
 			await Community.findByIdAndUpdate(communityIdObject, {
-				$push: { threads: createdThread._id },
+				$push: {threads: createdThread._id},
 			});
 		}
 
@@ -49,30 +49,30 @@ export async function fetchThreads(pageNumber = 1, pageSize = 20) {
 
 		// top level threads
 		// Ключевые посты без комментариев
-		const postsQuery = Thread.find({ parentId: { $in: [null, undefined] } })
-			.sort({ createdAt: 'desc' })
+		const postsQuery = Thread.find({parentId: {$in: [null, undefined]}})
+			.sort({createdAt: "desc"})
 			.skip(skipAmount)
 			.limit(pageSize)
 			.populate({
-				path: 'community',
+				path: "community",
 				model: Community,
 			})
-			.populate({ path: 'author', model: User })
+			.populate({path: "author", model: User})
 			.populate({
-				path: 'children',
+				path: "children",
 				populate: {
-					path: 'author',
+					path: "author",
 					model: User,
-					select: '_id name parentId image',
+					select: "_id name parentId image",
 				},
 			});
 
-		const totalPostsCount = await Thread.countDocuments({ parentId: { $in: [null, undefined] } });
+		const totalPostsCount = await Thread.countDocuments({parentId: {$in: [null, undefined]}});
 
 		const posts = await postsQuery.exec();
 		const isNext = totalPostsCount > skipAmount + posts.length;
 
-		return { posts, isNext };
+		return {posts, isNext};
 	} catch (e: any) {
 		console.log(e.message);
 		throw new Error(`Failed to fetch threads`);
@@ -85,23 +85,23 @@ export async function fetchThreadById(id: string) {
 		// Здесь мы забираем пост и все комментарии к нему + комментарии к коменнтариям
 
 		const thread = await Thread.findById(id)
-			.populate({ path: 'community', model: Community })
-			.populate({ path: 'author', model: User, select: '_id id name image username' })
+			.populate({path: "community", model: Community})
+			.populate({path: "author", model: User, select: "_id id name image username"})
 			.populate({
-				path: 'children',
+				path: "children",
 				populate: [
 					{
-						path: 'author',
+						path: "author",
 						model: User,
-						select: '_id id name parentId image username',
+						select: "_id id name parentId image username",
 					},
 					{
-						path: 'children',
+						path: "children",
 						model: Thread,
 						populate: {
-							path: 'author',
+							path: "author",
 							model: User,
-							select: '_id id name parentId image username',
+							select: "_id id name parentId image username",
 						},
 					},
 				],
@@ -148,12 +148,12 @@ export async function addLikeToThread(id: string, userId: string) {
 	try {
 		connectTODB();
 		// Пользователь
-		const user = await User.findOne({ id: userId });
+		const user = await User.findOne({id: userId});
 
 		// Тред
 		const originalThread = await Thread.findById(id);
 
-		const isUserLikedPost = await Thread.findOne({ _id: id, likes: user._id });
+		const isUserLikedPost = await Thread.findOne({_id: id, likes: user._id});
 
 		if (isUserLikedPost) {
 			originalThread.likes.pull(user._id.toString());

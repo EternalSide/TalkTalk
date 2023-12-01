@@ -9,7 +9,7 @@ export const connectTODB = async (): Promise<void> => {
 	}
 
 	if (isConnected) {
-		// console.log('Already connected');
+		return;
 	}
 	try {
 		await mongoose.connect(process.env.MONGODB_URL!);

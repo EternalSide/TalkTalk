@@ -1,19 +1,22 @@
-import { ClerkProvider } from '@clerk/nextjs';
+import {ClerkProvider} from "@clerk/nextjs";
 
 export const metadata = {
-	title: 'Threads Auth',
-	description: 'A next js app',
+	title: "TalkTalk - вход в аккаунт",
+	description: "TalkTalk - вход в аккаунт",
 };
-import { Inter } from 'next/font/google';
+import {Inter} from "next/font/google";
 
-import '../globals.css';
-const inter = Inter({ subsets: ['latin'] });
+import "../globals.css";
+import {ruRU} from "@clerk/localizations";
+const inter = Inter({subsets: ["latin"]});
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+const RootLayout = ({children}: {children: React.ReactNode}) => {
 	return (
-		<ClerkProvider>
+		<ClerkProvider localization={ruRU}>
 			<html lang='ru'>
-				<body className={`${inter.className} bg-dark-1 flex items-center min-h-[100vh] justify-center`}>
+				<body
+					className={`${inter.className} bg-dark-1 flex items-center min-h-[100vh] justify-center`}
+				>
 					{children}
 				</body>
 			</html>
